@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<title>Rebuilder</title>   
+
+<body>
+
+  <h1> rebuilder </h1> 
+  <div id='rebuilder'>
+    <button onclick="rebuild()"> Rebuild All </button>
+  </div>
+  
+  <script>  
+    function getJSONAndUpdate(url, id, updateCB, errorCB) {
+      var xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = function () { 
+        if (this.readyState == 4) {  
+          if (this.status == 200 || this.status == 304) {
+            try { 
+              if (this.responseText == "") {  
+                updateCB("", id);
+              } else {  
+                updateCB(JSON.parse(this.responseText), id);
+              } 
+            } catch (err) {
+              if (errorCB) errorCB(id);
+            }
+          } else {
+            if (errorCB) errorCB(id);
+          }
+        }
+      };
+      xhttp.open("GET", url, true);
+      xhttp.setRequestHeader('Content-type', 'application/json');
+      xhttp.setRequestHeader('Accept', 'application/json');
+      xhttp.send();
+    }
+    function errorCB(msg) {
+      console.log("Error Occurred: ", msg)
+    } 
+    function rebuild() {
+      function redirect(response,id) { 
+        console.log ("rebuild", JSON.stringify(response))  
+      }
+      getJSONAndUpdate("rebuild", "rebuild", redirect, errorCB);
+    } 
+  </script>
+
+</body>
+
+</html>
