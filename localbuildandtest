@@ -9,7 +9,6 @@ docker build -f Dockerfile -t $REBUILDER .
 docker push $REBUILDER
  
 yq -i '.spec.template.spec.containers[0].image="'$REBUILDER'"'  deploy/deployment.yaml    
-
-oc  project  user1-tenant 
+ 
 oc delete -f deploy.yaml
 oc apply -f deploy.yaml
