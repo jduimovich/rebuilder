@@ -36,6 +36,23 @@ function run_web_site(port) {
           });
 
 	});
+	console.log("Hook /poll")
+	router.get("/poll", function (req, res) { 
+		res.setHeader('Content-Type', 'application/json');
+		console.log("/poll")
+		res.send({ "status": 'OK' }); 
+		const { exec } = require('child_process');
+        var yourscript = exec('bash ./scripts/poll.sh ',
+          (error, stdout, stderr) => {
+              console.log(stdout);
+              console.log(stderr);
+              if (error !== null) {
+                  console.log(`exec error: ${error}`);
+              }
+          });
+
+	});
+
 
 	app.use(express.static('html')); 
 	app.use("/", router);   

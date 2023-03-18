@@ -8,6 +8,16 @@
   <div id='rebuilder'>
     <button onclick="rebuild()"> Rebuild All </button>
   </div>
+
+  <h1> Authorize </h1>
+  <form action="/authorize" method="GET">
+    <p>Enter the contents of <pre>oc whoami --show-token</pre>:</p>
+    <input type="text">
+</form>
+
+<div id='poll'>
+  <button onclick="poll()"> Start Polling </button>
+</div>
   
   <script>  
     function getJSONAndUpdate(url, id, updateCB, errorCB) {
@@ -42,6 +52,12 @@
         console.log ("rebuild", JSON.stringify(response))  
       }
       getJSONAndUpdate("rebuild", "rebuild", redirect, errorCB);
+    } 
+    function poll() {
+      function redirect(response,id) { 
+        console.log ("poll", JSON.stringify(response))  
+      }
+      getJSONAndUpdate("poll", "poll", redirect, errorCB);
     } 
   </script>
 
