@@ -19,17 +19,17 @@ function initComponentsList() {
             COMPONENTS["$SHORTNAME"]=$HEAD_TAG  
             if [ -z $CURRENT  ]; then
                 OP="Init"
-                BUILDIT=
+                BUILDIT=0
             else  
                 OP="Rebuild"
                 BUILDIT="${REBUILDS[$SHORTNAME]}" 
-                REBUILDS["$SHORTNAME"]="$BUILDIT $HEAD_TAG"
-                BUILDIT="${REBUILDS[$SHORTNAME]}"  
+                let BUILDIT++
                 $SCRIPTDIR/rebuild-component.sh $c
-            fi 
+            fi
+            REBUILDS["$SHORTNAME"]="$BUILDIT"  
+            printf "Builds $BUILDIT\n"
         fi 
         printf "$SHORTNAME: $GITREPO ($OP)\n\tTag: $HEAD_TAG\n"
-        printf "Builds $BUILDIT\n"
     done 
 }
  
