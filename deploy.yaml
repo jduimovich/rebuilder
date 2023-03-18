@@ -12,6 +12,7 @@ spec:
       labels:
         app.kubernetes.io/instance: rebuilder
     spec:
+      serviceAccountName: pipeline
       containers:
         - image: quay.io/jduimovich0/rebuilder:2023-03-17-162335
           imagePullPolicy: Always
