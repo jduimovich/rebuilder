@@ -27,7 +27,7 @@ spec:
           resources:
             requests:
               cpu: 10m
-              memory: 512Mi
+              memory: 64Mi
 ---
 apiVersion: v1
 kind: Service
@@ -41,18 +41,3 @@ spec:
     targetPort: 8080 
   selector:
       app.kubernetes.io/instance: rebuilder 
----
-apiVersion: route.openshift.io/v1
-kind: Route
-metadata: 
-  name: rebuilder 
-spec:
-  port:
-    targetPort: 8080
-  tls:
-    insecureEdgeTerminationPolicy: Redirect
-    termination: edge
-  to:
-    kind: Service
-    name: rebuilder
-    weight: 100 
