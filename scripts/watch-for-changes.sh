@@ -13,26 +13,30 @@ function initComponentsList() {
     NAMES=$(kubectl get components -o=name)
     for c in $NAMES
     do
-        GITREPO=$(kubectl get $c -o jsonpath={.spec.source.git.url}) 
         SHORTNAME=$(basename $c)
-        HEAD_TAG=$(git ls-remote  $GITREPO HEAD |  cut -f 1)   
-        CURRENT="${COMPONENTS[$SHORTNAME]}" 
-        if [ "$CURRENT" = "$HEAD_TAG" ]; then 
-                OP="No Changes"
+        GITREPO=$(kubectl get $c -o jsonpath={.spec.source.git.url}) 
+        if [ -z $GITREPO ]; then
+            printf "$SHORTNAME: has no gitrepo, is a binary component\n"
         else 
-            COMPONENTS["$SHORTNAME"]=$HEAD_TAG  
-            if [ -z $CURRENT  ]; then
-                OP="Init"
-                BUILDIT=0
-            else  
-                OP="Rebuild"
-                BUILDIT="${REBUILDS[$SHORTNAME]}" 
-                let BUILDIT++
-                $SCRIPTDIR/rebuild-component.sh $c
-            fi
-            REBUILDS["$SHORTNAME"]="$BUILDIT"   
-        fi 
-        printf "$SHORTNAME: $GITREPO ($OP)\n\tTag $HEAD_TAG Builds: $BUILDIT\n"
+            HEAD_TAG=$(git ls-remote  $GITREPO HEAD |  cut -f 1)   
+            CURRENT="${COMPONENTS[$SHORTNAME]}" 
+            if [ "$CURRENT" = "$HEAD_TAG" ]; then 
+                    OP="No Changes"
+            else 
+                COMPONENTS["$SHORTNAME"]=$HEAD_TAG  
+                if [ -z $CURRENT  ]; then
+                    OP="Init"
+                    BUILDIT=0
+                else  
+                    OP="Rebuild"
+                    BUILDIT="${REBUILDS[$SHORTNAME]}" 
+                    let BUILDIT++
+                    $SCRIPTDIR/rebuild-component.sh $c
+                fi
+                REBUILDS["$SHORTNAME"]="$BUILDIT"   
+            fi 
+            printf "$SHORTNAME: $GITREPO ($OP)\n\tTag $HEAD_TAG Builds: $BUILDIT\n"
+        fi
     done 
 }
   
