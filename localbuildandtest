@@ -5,10 +5,16 @@ IMG=$(basename $DIR)
 TAG=$(date +"%Y-%m-%d-%H%M%S")
 
 REBUILDER="quay.io/$MY_QUAY_USER/$IMG:$TAG"
-docker build -f docker/Dockerfile -t $REBUILDER .
-docker push $REBUILDER
+# docker build -f docker/Dockerfile -t $REBUILDER .
+# docker push $REBUILDER
  
-yq -i '.spec.template.spec.containers[0].image="'$REBUILDER'"'  deploy/deployment.yaml    
+SAVE=$(mktemp)
+ yq 'select(.kind != "Deployment")' deploy.yaml    > $SAVE
  
-oc delete -f deploy.yaml
-oc apply -f deploy.yaml
+yq -i 'select(.kind == "Deployment") | .spec.template.spec.containers[0].image="'$REBUILDER'"'  deploy.yaml    
+echo "---" >> deploy.yaml
+cat $SAVE >> deploy.yaml
+rm $SAVE
+
+#oc delete -f deploy.yaml
+#oc apply -f deploy.yaml

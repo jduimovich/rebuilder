@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: rebuilder 
+  name: rebuilder
 spec:
   replicas: 1
   selector:
@@ -11,9 +11,9 @@ spec:
     metadata:
       labels:
         app.kubernetes.io/instance: rebuilder
-    spec: 
+    spec:
       containers:
-        - image: quay.io/jduimovich0/rebuilder:2023-03-17-162335
+        - image: quay.io/jduimovich0/rebuilder:2023-03-18-115240
           imagePullPolicy: Always
           livenessProbe:
             httpGet:
@@ -31,13 +31,28 @@ spec:
 ---
 apiVersion: v1
 kind: Service
-metadata: 
-  labels:   
-    app.kubernetes.io/instance: rebuilder 
-  name: rebuilder 
+metadata:
+  labels:
+    app.kubernetes.io/instance: rebuilder
+  name: rebuilder
 spec:
   ports:
-  - port: 8080
-    targetPort: 8080 
+    - port: 8080
+      targetPort: 8080
   selector:
-      app.kubernetes.io/instance: rebuilder 
+    app.kubernetes.io/instance: rebuilder
+---
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: rebuilder
+spec:
+  port:
+    targetPort: 8080
+  tls:
+    insecureEdgeTerminationPolicy: Redirect
+    termination: edge
+  to:
+    kind: Service
+    name: rebuilder
+    weight: 100

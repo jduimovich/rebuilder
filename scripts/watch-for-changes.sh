@@ -5,11 +5,15 @@ declare -A COMPONENTS
 COMPONENTS=()  
 declare -A REBUILDS 
 REBUILDS=() 
-function initComponentsList() { 
+
+function initComponentsList() {
+    if [ -f /tmp/local-kc  ]; then
+        export KUBECONFIG=/tmp/local-kc 
+    fi 
     NAMES=$(kubectl get components -o=name)
     for c in $NAMES
     do
-        GITREPO=$(kubectl get $c -o yaml | yq .spec.source.git.url) 
+        GITREPO=$(kubectl get $c -o jsonpath={.spec.source.git.url}) 
         SHORTNAME=$(basename $c)
         HEAD_TAG=$(git ls-remote  $GITREPO HEAD |  cut -f 1)   
         CURRENT="${COMPONENTS[$SHORTNAME]}" 
@@ -34,8 +38,7 @@ function initComponentsList() {
   
 initComponentsList
 while true 
-do      
-    $SCRIPTDIR/show-rate-limit.sh | yq .rate 
+do       
     initComponentsList 
     for i in {10..1}
     do
