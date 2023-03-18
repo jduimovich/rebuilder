@@ -1,8 +1,0 @@
-
-DIR=$(pwd)
-IMG=$(basename $DIR)
-FULL="quay.io/$MY_QUAY_USER/$IMG"
-
-echo docker build  -t $FULL .
-docker build -t $FULL  .
-docker push $FULL  
