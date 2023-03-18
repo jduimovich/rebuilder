@@ -24,9 +24,9 @@ components:
   - name: kubernetes-deploy
     attributes:
       deployment/replicas: 1
-      deployment/cpuLimit: '100m'
+      deployment/cpuLimit: '10m'
       deployment/cpuRequest: 10m
-      deployment/memoryLimit: 100Mi
+      deployment/memoryLimit: 64Mi
       deployment/memoryRequest: 10Mi
       deployment/container-port: 8080
     kubernetes:

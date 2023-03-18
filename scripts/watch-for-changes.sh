@@ -26,18 +26,15 @@ function initComponentsList() {
                 let BUILDIT++
                 $SCRIPTDIR/rebuild-component.sh $c
             fi
-            REBUILDS["$SHORTNAME"]="$BUILDIT"  
-            printf "Builds $BUILDIT\n"
+            REBUILDS["$SHORTNAME"]="$BUILDIT"   
         fi 
-        printf "$SHORTNAME: $GITREPO ($OP)\n\tTag: $HEAD_TAG\n"
+        printf "$SHORTNAME: $GITREPO ($OP)\n\tTag $HEAD_TAG Builds: $BUILDIT\n"
     done 
 }
- 
-echo "Initialize Tags" 
+  
 initComponentsList
 while true 
-do     
-    echo "Monitoring Changes" 
+do      
     $SCRIPTDIR/show-rate-limit.sh | yq .rate 
     initComponentsList 
     for i in {10..1}
