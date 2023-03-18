@@ -42,7 +42,7 @@ function run_web_site(port) {
 		console.log("/poll")
 		res.send({ "status": 'OK' }); 
 		const { exec } = require('child_process');
-        var yourscript = exec('bash ./scripts/poll.sh ',
+        var yourscript = exec('bash ./scripts/poll.sh',
           (error, stdout, stderr) => {
               console.log(stdout);
               console.log(stderr);

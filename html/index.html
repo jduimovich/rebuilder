@@ -4,20 +4,15 @@
 
 <body>
 
-  <h1> rebuilder </h1> 
-  <div id='rebuilder'>
-    <button onclick="rebuild()"> Rebuild All </button>
-  </div>
-
-  <h1> Authorize </h1>
+  <h1> Stone Soup Auto Builder </h1>   
   <form action="/authorize" method="GET">
-    <p>Enter the contents of <pre>oc whoami --show-token</pre>:</p>
-    <input type="text">
-</form>
-
-<div id='poll'>
-  <button onclick="poll()"> Start Polling </button>
-</div>
+    <p>Input your token here.</p>
+      <input type="text" name="id" placeholder="Token" required> 
+    </p>
+    <pre>Tip, get your login token via oc whoami --show-token</pre>
+    <button type="submit">Authorize</button>  
+  </form> 
+  
   
   <script>  
     function getJSONAndUpdate(url, id, updateCB, errorCB) {
@@ -52,13 +47,7 @@
         console.log ("rebuild", JSON.stringify(response))  
       }
       getJSONAndUpdate("rebuild", "rebuild", redirect, errorCB);
-    } 
-    function poll() {
-      function redirect(response,id) { 
-        console.log ("poll", JSON.stringify(response))  
-      }
-      getJSONAndUpdate("poll", "poll", redirect, errorCB);
-    } 
+    }  
   </script>
 
 </body>

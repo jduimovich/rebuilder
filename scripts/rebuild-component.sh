@@ -7,6 +7,9 @@ then
   echo "Usage rebuild component"
   exit
 fi 
+  if [ -f /tmp/local-kc  ]; then
+      export KUBECONFIG=/tmp/local-kc 
+  fi 
 echo "Rebuild $C"
 kubectl patch $C   \
  --type=json -p='[{"op": "remove", "path": "/metadata/annotations/appstudio.openshift.io~1component-initial-build"}]' >/dev/null 2>&1 &

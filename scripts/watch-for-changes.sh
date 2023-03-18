@@ -42,7 +42,7 @@ do
     initComponentsList 
     for i in {10..1}
     do
-        sleep 2
+        sleep 1
         echo -n $i.
     done
 done
