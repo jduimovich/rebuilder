@@ -20,33 +20,15 @@ components:
       dockerfile:
         uri: docker/Dockerfile 
         buildContext: .
-        rootRequired: false
-  - name: kubernetes-deploy
-    attributes:
-      deployment/replicas: 1
-      deployment/cpuLimit: '10m'
-      deployment/cpuRequest: 10m
-      deployment/memoryLimit: 64Mi
-      deployment/memoryRequest: 10Mi
-      deployment/container-port: 8080
-    kubernetes:
-      uri: deploy.yaml
-      endpoints:
-      - name: http-8080
-        targetPort: 8080
-        path: /
+        rootRequired: false 
 commands:
   - id: build-image
     apply:
-      component: image-build
-  - id: deployk8s
-    apply:
-      component: kubernetes-deploy
+      component: image-build 
   - id: deploy
     composite:
       commands:
-        - build-image
-        - deployk8s
+        - build-image 
       group:
         kind: deploy
         isDefault: true
