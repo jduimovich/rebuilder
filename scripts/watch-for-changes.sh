@@ -21,7 +21,7 @@ function initComponentsList() {
             HEAD_TAG=$(git ls-remote  $GITREPO HEAD |  cut -f 1)   
             CURRENT="${COMPONENTS[$SHORTNAME]}" 
             if [ "$CURRENT" = "$HEAD_TAG" ]; then 
-                    OP="No Changes"
+                OP="No Changes" 
             else 
                 COMPONENTS["$SHORTNAME"]=$HEAD_TAG  
                 if [ -z $CURRENT  ]; then
@@ -34,7 +34,8 @@ function initComponentsList() {
                     $SCRIPTDIR/rebuild-component.sh $c
                 fi
                 REBUILDS["$SHORTNAME"]="$BUILDIT"   
-            fi 
+            fi
+            BUILDIT="${REBUILDS[$SHORTNAME]}"  
             printf "$SHORTNAME: $GITREPO ($OP)\n\tTag $HEAD_TAG Builds: $BUILDIT\n"
         fi
     done 
