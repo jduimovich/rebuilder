@@ -5,7 +5,7 @@ IMG=$(basename $DIR)
 TAG=$(date +"%Y-%m-%d-%H%M%S")
 
 REBUILDER="quay.io/$MY_QUAY_USER/$IMG:$TAG"
-docker build -f Dockerfile -t $REBUILDER .
+docker build -f docker/Dockerfile -t $REBUILDER .
 docker push $REBUILDER
  
 yq -i '.spec.template.spec.containers[0].image="'$REBUILDER'"'  deploy/deployment.yaml    

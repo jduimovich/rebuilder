@@ -18,7 +18,7 @@ components:
     image:
       imageName: rebuilder:latest
       dockerfile:
-        uri: Dockerfile
+        uri: docker/Dockerfile 
         buildContext: .
         rootRequired: false
   - name: kubernetes-deploy
