@@ -10,6 +10,7 @@ function initComponentsList() {
     if [ -f /tmp/local-kc  ]; then
         export KUBECONFIG=/tmp/local-kc 
     fi 
+    echo "Status: $(date)" > /tmp/rebuilder.log
     NAMES=$(kubectl get components -o=name)
     for c in $NAMES
     do
@@ -21,7 +22,7 @@ function initComponentsList() {
             HEAD_TAG=$(git ls-remote  $GITREPO HEAD |  cut -f 1)   
             CURRENT="${COMPONENTS[$SHORTNAME]}" 
             if [ "$CURRENT" = "$HEAD_TAG" ]; then 
-                OP="No Changes" 
+                OP="Unchanged" 
             else 
                 COMPONENTS["$SHORTNAME"]=$HEAD_TAG  
                 if [ -z $CURRENT  ]; then
@@ -36,7 +37,8 @@ function initComponentsList() {
                 REBUILDS["$SHORTNAME"]="$BUILDIT"   
             fi
             BUILDIT="${REBUILDS[$SHORTNAME]}"  
-            printf "$SHORTNAME: $GITREPO ($OP)\n\tTag $HEAD_TAG Builds: $BUILDIT\n"
+            printf "$SHORTNAME $GITREPO $OP $HEAD_TAG $BUILDIT\n" >> /tmp/rebuilder.log
+            printf "$SHORTNAME: $GITREPO ($OP)\n\tTag $HEAD_TAG Builds: $BUILDIT\n"  
         fi
     done 
 }

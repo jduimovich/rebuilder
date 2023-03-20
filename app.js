@@ -36,6 +36,19 @@ function run_web_site(port) {
           });
 
 	});
+	router.get("/status", function (req, res) { 
+		res.setHeader('Content-Type', 'application/json');
+		console.log("/status")
+		var file = '/tmp/rebuilder.log';
+		var fs = require('fs') 
+		var data = fs.readFileSync(file); 
+		if (data) {  
+			res.send({ "status": data.toString() }); 
+		} else { 
+			res.send({ "status": "Not Running" }); 
+		}
+	});
+
 	console.log("Hook /poll")
 	router.get("/poll", function (req, res) { 
 		res.setHeader('Content-Type', 'application/json');

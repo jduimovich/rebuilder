@@ -18,3 +18,4 @@ rm $SAVE
 
 oc delete -f deploy.yaml
 oc apply -f deploy.yaml
+./scripts/send-token.sh 

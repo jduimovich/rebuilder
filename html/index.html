@@ -13,7 +13,11 @@
     <button type="submit">Authorize</button>  
   </form> 
   
-  
+  <h2> Status </h2>   
+  <div id="status" style="height:400;width:100vw;border:2px solid #ccc;"> 
+    Waiting
+  </div>
+
   <script>  
     function getJSONAndUpdate(url, id, updateCB, errorCB) {
       var xhttp = new XMLHttpRequest();
@@ -48,6 +52,18 @@
       }
       getJSONAndUpdate("rebuild", "rebuild", redirect, errorCB);
     }  
+    function updateStatus(text, id) {  
+      document.getElementById(id).innerHTML = "<pre>" + text.status + "</pre>"; 
+      hookpoll()
+    } 
+    function hookpoll() {  
+      setTimeout(function () { poll(); }, 10000);
+    } 
+    function poll() {  
+      getJSONAndUpdate("status", "status", updateStatus, hookpoll);
+    } 
+    console.log ("Install poll") 
+    poll ()
   </script>
 
 </body>
