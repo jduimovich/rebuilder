@@ -1,9 +1,13 @@
 #!/usr/bin/env bash
 
-# takes token parameter and creates a tmp kubeconfig 
-NS=$(oc project --short)
+# takes token parameter and creates a tmp kubeconfig  
 USER=$(oc whoami)
-echo "USER $USER NS: $NS"
+NS=echo "$USER" | cut -d ":" -f 3
+if [ -z $NS ];
+  NS=$USER-tenant
+fi 
+
+system:serviceaccount:jduimovich-tenant:default
 
 cat <<EOF > /tmp/local-kc 
 apiVersion: v1
@@ -15,7 +19,7 @@ clusters:
 contexts:
 - context:
     cluster: local-cluster
-    namespace: user1-tenant
+    namespace: $NS
     user: kubeadmin/local-cluster
   name: local-context
 current-context: local-context
