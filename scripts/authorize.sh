@@ -5,11 +5,14 @@ USER=$(oc whoami)
 echo "USER = $USER"
  
 NS=$(echo "$USER" | cut -d ":" -f 3)
-if [ "$NS" = "$USER" ];
-  NS=$USER-tenant
-fi
 
 echo "NS=$NS" 
+
+if [ "$NS" = "$USER" ]; then 
+  NS=$USER-tenant
+fi 
+echo "NS=$NS" 
+
 
 cat <<EOF > /tmp/local-kc 
 apiVersion: v1
