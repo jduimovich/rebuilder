@@ -7,9 +7,9 @@ do
     break
   fi 
   let COUNT++
-  echo "Waiting for kubeconfig $COUNT" > /tmp/rebuilder.log
+  echo "$COUNT: Waiting for kubeconfig " > /tmp/rebuilder.log
   cat /tmp/rebuilder.log
-  sleep 10
+  sleep 1
 done  
 if [ -f /tmp/rebuilder-poll-pid  ]; then
     PID=$(cat /tmp/rebuilder-poll-pid)
