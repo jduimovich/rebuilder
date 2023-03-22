@@ -2,12 +2,14 @@
 
 # takes token parameter and creates a tmp kubeconfig  
 USER=$(oc whoami)
-NS=echo "$USER" | cut -d ":" -f 3
+echo "USER = $USER"
+NS=$(echo "$USER" | cut -d ":" -f 3)
 if [ -z $NS ];
   NS=$USER-tenant
 fi 
+ 
+echo $NS=$NS
 
-system:serviceaccount:jduimovich-tenant:default
 
 cat <<EOF > /tmp/local-kc 
 apiVersion: v1
