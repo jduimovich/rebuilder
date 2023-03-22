@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 
 # takes token parameter and creates a tmp kubeconfig 
+NS=$(oc project --short)
+USER=$(oc whoami)
+echo "USER $USER NS: $NS"
+
 cat <<EOF > /tmp/local-kc 
 apiVersion: v1
 clusters:   
