@@ -1,11 +1,14 @@
 SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
+COUNT=0
 while true
 do
   if [ -f /tmp/local-kc  ]; then 
     break
   fi 
-  echo "Waiting for kubeconfig"
+  let COUNT++
+  echo "Waiting for kubeconfig $COUNT" > /tmp/rebuilder.log
+  cat /tmp/rebuilder.log
   sleep 10
 done  
 if [ -f /tmp/rebuilder-poll-pid  ]; then
