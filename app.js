@@ -22,9 +22,11 @@ function run_web_site(port) {
 	}); 
 	console.log("Hook /authorize")
 	router.get("/authorize", function (req, res) { 
-		res.setHeader('Content-Type', 'application/json');
-		console.log("/authorize")
-		res.send({ "status": 'OK' }); 
+		res.redirect('/');
+
+		// res.setHeader('Content-Type', 'application/json');
+		// console.log("/authorize")
+		// res.send({ "status": 'OK' }); 
 		const { exec } = require('child_process');
         var yourscript = exec('bash ./scripts/authorize.sh '+req.query.id,
           (error, stdout, stderr) => {
