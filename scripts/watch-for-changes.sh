@@ -12,6 +12,7 @@ function initComponentsList() {
     fi 
     echo "Status: $(date)" > /tmp/rebuilder.log
     NAMES=$(kubectl get components -o=name)
+    echo "Components found $NAMES"
     for c in $NAMES
     do
         SHORTNAME=$(basename $c)
