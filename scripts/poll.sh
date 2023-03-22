@@ -11,6 +11,7 @@ do
   cat /tmp/rebuilder.log
   sleep 1
 done  
+echo "kubeconfig installed ...  " > /tmp/rebuilder.log
 if [ -f /tmp/rebuilder-poll-pid  ]; then
     PID=$(cat /tmp/rebuilder-poll-pid)
     kill -9 $PID
